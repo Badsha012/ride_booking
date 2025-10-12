@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ride Booking Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-cyan-400 to-blue-500 min-h-screen text-white">
+
+  <header class="flex justify-between items-center px-8 py-4 bg-white/10 backdrop-blur-md">
+    <h1 class="text-2xl font-bold">Ride Booking</h1>
+    <button onclick="logout()" class="bg-white text-blue-600 px-4 py-1 rounded-lg font-medium hover:bg-gray-100">
+      Logout
+    </button>
+  </header>
+
+  <main class="flex flex-col items-center justify-center mt-20 space-y-6">
+    <h2 class="text-3xl font-semibold">Welcome, Rider!</h2>
+    <p class="text-lg text-white/90 max-w-md text-center">
+      Choose your pickup and destination to start your journey. You can select vehicle type,
+      apply vouchers, and choose your payment method easily.
+    </p>
+    <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
+      Book a Ride
+    </button>
+  </main>
+
+  <script>
+    function logout() {
+      alert("You have logged out!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
