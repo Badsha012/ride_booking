@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Rides</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body
-    class="bg-gradient-to-br from-cyan-400 to-blue-500 min-h-screen flex flex-col items-center p-6"
-  >
-    <h1 class="text-3xl font-bold text-white mb-6">My Rides</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Rides</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="relative min-h-screen bg-gradient-to-br from-cyan-400 to-blue-500 flex flex-col items-center justify-start pt-12 px-4">
 
-    <div id="ridesList" class="w-full max-w-md space-y-4"></div>
+  <!-- Overlay for subtle dark effect -->
+  <div class="absolute inset-0 bg-black/30 z-0"></div>
 
-    <script>
-      const ridesList = document.getElementById("ridesList");
-      const rides = JSON.parse(localStorage.getItem("rides") || "[]");
+  <h1 class="text-3xl font-bold text-white mb-6 relative z-10">My Rides</h1>
 
-      if (rides.length === 0) {
-        ridesList.innerHTML =
-          '<p class="text-white text-center">No rides booked yet.</p>';
-      } else {
-        rides.forEach((ride) => {
-          const rideCard = document.createElement("div");
-          rideCard.className = "bg-white p-4 rounded-xl shadow-md";
-          rideCard.innerHTML = `
+  <div id="ridesList" class="w-full max-w-md space-y-4 relative z-10"></div>
+
+  <!-- Go Home Button -->
+  <button onclick="goHome()" class="mt-6 relative z-10 bg-white text-blue-600 px-6 py-2 rounded-lg shadow hover:bg-gray-100">
+    Go Home
+  </button>
+
+  <script>
+    const ridesList = document.getElementById("ridesList");
+    const rides = JSON.parse(localStorage.getItem("rides") || "[]");
+
+    if (rides.length === 0) {
+      ridesList.innerHTML =
+        '<p class="text-white text-center text-lg">No rides booked yet.</p>';
+    } else {
+      rides.forEach((ride) => {
+        const rideCard = document.createElement("div");
+        rideCard.className = "bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition duration-200";
+        rideCard.innerHTML = `
           <p><strong>Pickup:</strong> ${ride.pickup}</p>
           <p><strong>Destination:</strong> ${ride.destination}</p>
           <p><strong>Vehicle:</strong> ${ride.vehicle}</p>
@@ -33,9 +40,14 @@
           <p><strong>Fare:</strong> ${ride.fare} ৳</p>
           <p><strong>Time:</strong> ${ride.time}</p>
         `;
-          ridesList.appendChild(rideCard);
-        });
-      }
-    </script>
-  </body>
+        ridesList.appendChild(rideCard);
+      });
+    }
+
+    function goHome() {
+      window.location.href = "home.html"; 
+    }
+  </script>
+
+</body>
 </html>
