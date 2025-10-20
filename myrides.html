@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Rides</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-cyan-400 to-blue-500 min-h-screen flex flex-col items-center p-6"
+  >
+    <h1 class="text-3xl font-bold text-white mb-6">My Rides</h1>
+
+    <div id="ridesList" class="w-full max-w-md space-y-4"></div>
+
+    <script>
+      const ridesList = document.getElementById("ridesList");
+      const rides = JSON.parse(localStorage.getItem("rides") || "[]");
+
+      if (rides.length === 0) {
+        ridesList.innerHTML =
+          '<p class="text-white text-center">No rides booked yet.</p>';
+      } else {
+        rides.forEach((ride) => {
+          const rideCard = document.createElement("div");
+          rideCard.className = "bg-white p-4 rounded-xl shadow-md";
+          rideCard.innerHTML = `
+          <p><strong>Pickup:</strong> ${ride.pickup}</p>
+          <p><strong>Destination:</strong> ${ride.destination}</p>
+          <p><strong>Vehicle:</strong> ${ride.vehicle}</p>
+          <p><strong>Payment:</strong> ${ride.payment}</p>
+          <p><strong>Distance:</strong> ${ride.distance} km</p>
+          <p><strong>Fare:</strong> ${ride.fare} ৳</p>
+          <p><strong>Time:</strong> ${ride.time}</p>
+        `;
+          ridesList.appendChild(rideCard);
+        });
+      }
+    </script>
+  </body>
+</html>
