@@ -3,59 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book a Ride</title>
+  <title>Ride Booking | Book a Ride</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-cyan-400 to-blue-500 min-h-screen flex items-center justify-center"
- style="background-image: url('./Assets/images\ \(6\).jpeg'); background-size: cover; background-position: center;"
->
+<body class="bg-gradient-to-br from-cyan-400 to-blue-500 min-h-screen flex flex-col items-center">
 
-  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
-    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Book Your Ride</h1>
+  <!-- Navbar -->
+  <header class="flex justify-between items-center w-full px-6 py-4 bg-white/10 backdrop-blur-md shadow-md sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <img class="h-10 w-10 rounded-2xl shadow-md object-cover" src="./Assets/images (3).jpeg" alt="Ride Booking logo">
+      <h1 class="text-2xl font-bold text-white">Ride Booking</h1>
+    </div>
+    <nav class="flex gap-4 items-center">
+      <a href="home.html" class="nav-link">Home</a>
+      <a href="book.html" class="nav-link">Book Ride</a>
+      <a href="myrides.html" class="nav-link">My Rides</a>
+      <button onclick="logout()" class="bg-white text-blue-600 px-4 py-1.5 rounded-lg font-medium text-sm hover:bg-gray-100">Logout</button>
+    </nav>
+  </header>
+
+  <!-- Book Ride Form -->
+  <div class="relative bg-white/95 rounded-2xl shadow-2xl p-8 w-full max-w-md mt-10">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Book Your Ride</h1>
+    <p class="text-center text-gray-500 text-sm mb-6">Fill in the details to calculate fare and confirm your ride.</p>
 
     <form id="rideForm" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Pickup Location</label>
-        <input type="text" id="pickup" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter pickup point" />
-      </div>
+      <input type="text" id="pickup" placeholder="Pickup Location" class="w-full px-4 py-2 border rounded-lg text-sm" required>
+      <input type="text" id="destination" placeholder="Destination" class="w-full px-4 py-2 border rounded-lg text-sm" required>
+      <select id="vehicle" class="w-full px-4 py-2 border rounded-lg text-sm" required>
+        <option value="">Select Vehicle</option>
+        <option value="bike">Bike</option>
+        <option value="car">Car</option>
+        <option value="micro">Microbus</option>
+      </select>
+      <select id="payment" class="w-full px-4 py-2 border rounded-lg text-sm" required>
+        <option value="">Select Payment</option>
+        <option value="cash">Cash</option>
+        <option value="online">Online</option>
+      </select>
+      <input type="text" id="voucher" placeholder="Voucher Code" class="w-full px-4 py-2 border rounded-lg text-sm">
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Destination</label>
-        <input type="text" id="destination" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter destination" />
-      </div>
-
-      <button type="button" id="calculateFareBtn" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">Calculate Fare</button>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mt-4">Vehicle Type</label>
-        <select id="vehicle" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-          <option value="">Select vehicle</option>
-          <option value="bike">Bike</option>
-          <option value="car">Car</option>
-          <option value="micro">Microbus</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Payment Method</label>
-        <select id="payment" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-          <option value="">Select payment</option>
-          <option value="cash">Cash</option>
-          <option value="online">Online</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Voucher Code</label>
-        <input type="text" id="voucher" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="RIDE10 for 10% off" />
-      </div>
-
-      <div class="bg-gray-100 p-3 rounded-lg">
+      <button type="button" id="calculateFareBtn" class="w-full bg-green-600 text-white py-2 rounded-lg text-sm font-semibold">Calculate Fare</button>
+      <div class="bg-gray-100 p-3 rounded-lg text-sm mt-2">
         <p>Distance: <span id="distanceText">--</span> km</p>
         <p>Fare: <span id="fareText">--</span> ৳</p>
       </div>
-
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Confirm Ride</button>
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold mt-2">Confirm Ride</button>
+      <button type="button" onclick="goBackHome()" class="w-full mt-2 border border-blue-600 text-blue-600 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50">Back to Home</button>
     </form>
   </div>
 
@@ -65,38 +59,38 @@
     document.getElementById("calculateFareBtn").addEventListener("click", () => {
       const vehicle = document.getElementById("vehicle").value;
       if (!vehicle) return alert("Please select a vehicle type!");
-
       distanceKm = (Math.random() * 8 + 2).toFixed(2);
       document.getElementById("distanceText").textContent = distanceKm;
-
       let rate = vehicle === "bike" ? 20 : vehicle === "car" ? 30 : 40;
       calculatedFare = Math.max(rate * distanceKm, rate * 2);
       document.getElementById("fareText").textContent = calculatedFare.toFixed(0);
     });
 
-    document.getElementById("rideForm").addEventListener("submit", (e) => {
+    document.getElementById("rideForm").addEventListener("submit", e => {
       e.preventDefault();
-
-      const pickup = document.getElementById("pickup").value;
-      const destination = document.getElementById("destination").value;
+      const pickup = document.getElementById("pickup").value.trim();
+      const destination = document.getElementById("destination").value.trim();
       const vehicle = document.getElementById("vehicle").value;
       const payment = document.getElementById("payment").value;
       const voucher = document.getElementById("voucher").value.trim();
-
       if (!pickup || !destination || !vehicle || !payment) return alert("Please fill all fields!");
       if (distanceKm == 0 || calculatedFare == 0) return alert("Please calculate fare first!");
 
       let finalFare = calculatedFare;
-      if (voucher === "RIDE10") finalFare *= 0.9;
-
+      if(voucher==="RIDE10") finalFare *= 0.9;
       const ride = { pickup, destination, vehicle, payment, fare: finalFare.toFixed(0), distance: distanceKm, time: new Date().toLocaleString() };
-      const rides = JSON.parse(localStorage.getItem("rides") || "[]");
-      rides.push(ride);
-      localStorage.setItem("rides", JSON.stringify(rides));
-
-      alert("✅ Ride Confirmed!");
-      window.location.href = "myrides.html";
+      const rides = JSON.parse(localStorage.getItem("rides")||"[]");
+      rides.push(ride); localStorage.setItem("rides", JSON.stringify(rides));
+      alert("✅ Ride Confirmed!"); window.location.href="myrides.html";
     });
+
+    function goBackHome(){ window.location.href="home.html"; }
+
+    // Navbar
+    const links = document.querySelectorAll(".nav-link");
+    const currentPage = location.pathname.split("/").pop();
+    links.forEach(link => { if(link.getAttribute("href") === currentPage) link.classList.add("text-blue-300", "font-bold"); });
+    function logout(){ alert("You have logged out!"); window.location.href="index.html"; }
   </script>
 </body>
 </html>
