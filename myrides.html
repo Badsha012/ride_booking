@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ride Booking | My Rides</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet">
 </head>
 <body class="relative min-h-screen bg-gradient-to-br from-cyan-400 to-blue-500 flex flex-col text-white">
 
@@ -16,38 +16,84 @@
       <h1 class="text-2xl font-bold text-white">Ride Booking</h1>
     </div>
     <nav class="flex gap-4 items-center">
-      <a href="home.html" class="nav-link font-bold text-xl ">Home</a>
-      <a href="book.html" class="nav-link font-bold text-xl ">Book Ride</a>
-      <a href="myrides.html" class="nav-link font-bold text-xl ">My Rides</a>
-      <button onclick="logout()" class="bg-white text-blue-600 px-4 py-1.5 rounded-lg font-medium text-sm hover:bg-gray-100">Logout</button>
+      <a href="home.html" class="nav-link font-bold text-xl">Home</a>
+      <a href="book.html" class="nav-link font-bold text-xl">Book Ride</a>
+      <a href="myrides.html" class="nav-link font-bold text-xl">My Rides</a>
+      <button onclick="logout()" class="bg-white text-blue-600 px-4 py-1.5 rounded-lg font-medium text-sm hover:bg-gray-100 transition">Logout</button>
     </nav>
   </header>
 
   <!-- Main Content -->
-  <main class="flex-grow pt-10 px-4 flex flex-col items-center">
-    <h1 class="text-3xl font-bold mb-6">My Rides</h1>
-    <div id="ridesList" class="w-full max-w-xl space-y-4"></div>
-    <button onclick="goHome()" class="mt-6 bg-white text-blue-600 px-6 py-2 rounded-lg shadow hover:bg-gray-100 text-sm font-semibold">Go Home</button>
+  <main class="flex-grow pt-10 px-6 pb-10">
+    <h1 class="text-3xl font-bold mb-8 text-center">My Rides</h1>
+    <div id="ridesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div class="flex justify-center mt-8">
+      <button onclick="goHome()" class="bg-white text-blue-600 px-6 py-2 rounded-lg shadow hover:bg-gray-100 font-semibold transition">Go Home</button>
+    </div>
   </main>
 
   <script>
     const ridesList = document.getElementById("ridesList");
-    const rides = JSON.parse(localStorage.getItem("rides")||"[]");
-    if(rides.length===0) ridesList.innerHTML='<p class="text-white text-center text-lg bg-black/20 rounded-xl px-4 py-3">No rides booked yet.</p>';
-    else rides.forEach(ride=>{
-      const rideCard = document.createElement("div");
-      rideCard.className="bg-white text-gray-800 p-4 rounded-2xl shadow-lg transform hover:scale-[1.02] transition duration-200 text-sm space-y-1";
-      rideCard.innerHTML=`<p><strong>Pickup:</strong> ${ride.pickup}</p><p><strong>Destination:</strong> ${ride.destination}</p><p><strong>Vehicle:</strong> ${ride.vehicle}</p><p><strong>Payment:</strong> ${ride.payment}</p><p><strong>Distance:</strong> ${ride.distance} km</p><p><strong>Fare:</strong> ${ride.fare} ৳</p><p><strong>Time:</strong> ${ride.time}</p>`;
-      ridesList.appendChild(rideCard);
+
+    function renderRides() {
+      const rides = JSON.parse(localStorage.getItem("rides") || "[]");
+      ridesList.innerHTML = "";
+
+      if (rides.length === 0) {
+        ridesList.innerHTML = `
+          <div class="col-span-full text-center bg-black/20 rounded-2xl p-6 text-white text-lg font-medium shadow-lg">
+            No rides booked yet.
+          </div>`;
+        return;
+      }
+
+      rides.forEach((ride, i) => {
+        const rideCard = document.createElement("div");
+        rideCard.className = "bg-white/90 text-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.03] transition duration-300 space-y-2 flex flex-col justify-between";
+
+        rideCard.innerHTML = `
+          <div class="space-y-2">
+            <h3 class="text-xl font-bold text-blue-600 mb-2">Ride ${i + 1}</h3>
+            <p><strong>Pickup:</strong> ${ride.pickup}</p>
+            <p><strong>Destination:</strong> ${ride.destination}</p>
+            <p><strong>Vehicle:</strong> ${ride.vehicle}</p>
+            <p><strong>Payment:</strong> ${ride.payment}</p>
+            <p><strong>Distance:</strong> ${ride.distance} km</p>
+            <p><strong>Fare:</strong> ${ride.fare} ৳</p>
+            <p><strong>Time:</strong> ${ride.time}</p>
+          </div>
+          <div class="flex justify-end mt-4">
+            <button onclick="removeRide(${i})" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition">Remove</button>
+          </div>
+        `;
+        ridesList.appendChild(rideCard);
+      });
+    }
+
+    function removeRide(index) {
+      let rides = JSON.parse(localStorage.getItem("rides") || "[]");
+      rides.splice(index, 1); // Remove ride at index
+      localStorage.setItem("rides", JSON.stringify(rides));
+      renderRides(); // Refresh UI
+    }
+
+    function goHome() { window.location.href = "home.html"; }
+
+    // Navbar highlight
+    const links = document.querySelectorAll(".nav-link");
+    const currentPage = location.pathname.split("/").pop();
+    links.forEach(link => {
+      if (link.getAttribute("href") === currentPage) {
+        link.classList.add("text-blue-300", "font-bold");
+      }
     });
 
-    function goHome(){ window.location.href="home.html"; }
+    function logout() {
+      alert("You have logged out!");
+      window.location.href = "index.html";
+    }
 
-    // Navbar
-    const links=document.querySelectorAll(".nav-link");
-    const currentPage=location.pathname.split("/").pop();
-    links.forEach(link=>{ if(link.getAttribute("href")===currentPage) link.classList.add("text-blue-300","font-bold"); });
-    function logout(){ alert("You have logged out!"); window.location.href="index.html"; }
+    renderRides();
   </script>
 </body>
 </html>
