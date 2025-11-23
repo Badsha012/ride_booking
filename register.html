@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Page</title>
+
+  <!-- Tailwind + DaisyUI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="hero bg-base-200 min-h-screen">
+    <div class="hero-content flex-col lg:flex-row">
+
+      <!-- Text Section -->
+      <div class="text-center lg:text-left max-w-md">
+        <h1 class="text-5xl font-bold">Create an Account</h1>
+        <p class="py-4 text-base">
+          Join us today! Create your account in just a few seconds.
+        </p>
+      </div>
+
+      <!-- Register Card -->
+      <div class="card bg-base-100 w-full max-w-sm shadow-xl">
+        <div class="card-body">
+          <form class="space-y-3">
+
+            <label class="label">
+              <span class="label-text">Full Name</span>
+            </label>
+            <input type="text" class="input input-bordered w-full" placeholder="Enter your name" required />
+
+            <label class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <input type="email" class="input input-bordered w-full" placeholder="Email address" required />
+
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <input type="password" class="input input-bordered w-full" placeholder="Password" required />
+
+            <label class="label">
+              <span class="label-text">Confirm Password</span>
+            </label>
+            <input type="password" class="input input-bordered w-full" placeholder="Confirm password" required />
+
+            <button class="btn btn-neutral w-full mt-3">Register</button>
+
+            <p class="text-sm text-center mt-2">
+              Already have an account?
+              <a class="link link-hover font-semibold">Login</a>
+            </p>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
